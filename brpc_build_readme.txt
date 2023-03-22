@@ -64,7 +64,15 @@
         ./thirdparty/protobuf_v3.20.3/bin"
     3. make &>log.txt
     4. 成功后在output目录中有 include/lib/bin
-
+    
+5. 编译运行example/echo_c++
+    1. make (注意链接路径)
+    2. 运行echo_server.  ./echo_server  或者在后台运行 nohup ./echo_server &
+    3. 运行echo_client  ./echo_client
+    4. echo_client是默认的baidu_std协议。实际工作中多有使用，但作为demo测试，其实不用。因为brpc有个强大的特性是支持单端口多协议，并且号称支持协议最多的RPC框架。
+        所以我们可以用HTTP请求的方式来请求它！
+        curl -d '{"message":"bmw hello world"}' 127.0.0.1:8000/EchoService/Echo
+        
 问题:
     1. 如果前面步骤中有顺序差异,尤其是protobuf存在多版本错乱时, 可能出现"idl_options.pb" 使用的protoc版本过旧/新错误,这时需要正确配置 config_brpc.sh的参数项,
         并把brpc/src下的idl_options.pb.*文件删除(这些是protoc新生成的,不要删除了idl_options.proto),再重新make.
